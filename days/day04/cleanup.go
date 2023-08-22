@@ -2,7 +2,6 @@ package four
 
 import (
 	"Advent/utils"
-	"bufio"
 	"log"
 	"strconv"
 	"strings"
@@ -40,11 +39,9 @@ func isInRange(s []int) bool {
 
 func Cleanup(filename string) int{
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
-
-    sc := bufio.NewScanner(file)
 
     var sections []string
     var ints []int
@@ -60,6 +57,8 @@ func Cleanup(filename string) int{
             counter++
         }
     }
+
+    defer file.Close()
     return counter
 }
 
@@ -72,11 +71,9 @@ func overlaps(range1, range2 []int) bool {
 
 func Cleanup2(filename string) int{
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
-
-    sc := bufio.NewScanner(file)
 
     var sections []string
     var ints []int
@@ -94,5 +91,7 @@ func Cleanup2(filename string) int{
             counter++
         }
     }
+
+    defer file.Close()
     return counter
 }

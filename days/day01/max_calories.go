@@ -1,7 +1,6 @@
 package one
 
 import (
-	"bufio"
 	"log"
 	"strconv"
     "Advent/utils"
@@ -13,14 +12,13 @@ func FindMax(filename string) int {
     max, curr, num := 0,0,0
     var err error
 
-    file, err := utils.OpenFile(filename)
+    sc,file, err := utils.OpenFile(filename)
 
     if err != nil {log.Fatal(err)}
     
-    scanner := bufio.NewScanner(file)
 
-    for scanner.Scan() {
-        line := scanner.Text()
+    for sc.Scan() {
+        line := sc.Text()
 
         if line != "" {
             num, err = strconv.Atoi(line)
@@ -40,18 +38,14 @@ func FindMax(filename string) int {
 
 func FindTopThree(filename string) int {
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
     bt := tree.BinaryTree{}
     num, curr := 0,0
 
-    if err != nil {
-        log.Fatal(err)
-    }
+    if err != nil { log.Fatal(err) }
 
-    scanner := bufio.NewScanner(file)
-
-    for scanner.Scan(){
-        line := scanner.Text()
+    for sc.Scan(){
+        line := sc.Text()
 
         if line != "" {
             num, err = strconv.Atoi(line)

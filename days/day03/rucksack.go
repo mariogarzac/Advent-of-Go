@@ -2,7 +2,6 @@ package three
 
 import (
 	"Advent/utils"
-	"bufio"
 	"fmt"
 	"log"
 )
@@ -34,15 +33,14 @@ func findCommonItem(s1 string, s2 string) byte {
 
 func RuckSack(filename string) int{
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
 
-    scanner := bufio.NewScanner(file)
     priority := 0
 
-    for scanner.Scan(){
-        text := scanner.Text()
+    for sc.Scan(){
+        text := sc.Text()
 
         // Split the string and find the common item
         s1,s2 := splitString(text)
@@ -51,6 +49,8 @@ func RuckSack(filename string) int{
         priority += calculatePriority(object)
     }
 
+    defer file.Close()
+    
     return priority
 }
 
@@ -58,15 +58,13 @@ func RuckSackPart2(filename string) int {
     var contents []string
     counter, priority := 0, 0
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
 
-    scanner := bufio.NewScanner(file)
-    
-    for scanner.Scan(){
+    for sc.Scan(){
         if counter < 3{
-            contents = append(contents, scanner.Text())
+            contents = append(contents, sc.Text())
             counter++
         }
 
@@ -78,6 +76,8 @@ func RuckSackPart2(filename string) int {
             contents = []string{}
         }
     }
+
+    defer file.Close()
     return priority
 }
 

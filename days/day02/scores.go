@@ -2,25 +2,22 @@ package two
 
 import (
 	"Advent/utils"
-	"bufio"
 	"log"
 	"strings"
 )
 
 func GetMatchScore(filename string) int{
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
 
-    scanner := bufio.NewScanner(file)
-
     score := 0
 
-    for scanner.Scan(){
-        match := strings.Fields(scanner.Text())
+    for sc.Scan(){
+        match := strings.Fields(sc.Text())
 
-        if scanner.Text() != ""{
+        if sc.Text() != ""{
             switch strings.Join(match, " ") {
                 //wins scissors rock, rock paper, paper scissors 
                 case "A Y", "B Z", "C X": 
@@ -44,7 +41,6 @@ func GetMatchScore(filename string) int{
         }
     }
 
-
     defer file.Close()
 
     return score
@@ -52,18 +48,16 @@ func GetMatchScore(filename string) int{
 
 func GetStrategyScore(filename string) int {
 
-    file, err := utils.OpenFile(filename)
+    sc, file, err := utils.OpenFile(filename)
 
     if err != nil { log.Fatal(err) }
 
-    scanner := bufio.NewScanner(file)
-
     score := 0
 
-    for scanner.Scan(){
-        match := strings.Fields(scanner.Text())
+    for sc.Scan(){
+        match := strings.Fields(sc.Text())
 
-        if scanner.Text() != ""{
+        if sc.Text() != ""{
             switch strings.Join(match, " ") {
             case "A X", "B X", "C X": // lose
                 score += 0
@@ -86,6 +80,7 @@ func GetStrategyScore(filename string) int {
         }
     }
     
+    defer file.Close()
     return score
 }
 
