@@ -110,6 +110,8 @@ func OperateCrane(filename string) utils.Stack{
     sc, file, err := utils.OpenFile(filename)
     if err != nil { log.Fatal(err) }
 
+    defer file.Close()
+
     moveToInstructions := false
 
     ld := LoadingDock{}
@@ -125,6 +127,5 @@ func OperateCrane(filename string) utils.Stack{
         }
     }
 
-    defer file.Close()
     return getTops(&ld)
 }

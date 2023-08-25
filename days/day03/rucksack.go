@@ -34,8 +34,9 @@ func findCommonItem(s1 string, s2 string) byte {
 func RuckSack(filename string) int{
 
     sc, file, err := utils.OpenFile(filename)
-
     if err != nil { log.Fatal(err) }
+
+    defer file.Close()
 
     priority := 0
 
@@ -49,8 +50,6 @@ func RuckSack(filename string) int{
         priority += calculatePriority(object)
     }
 
-    defer file.Close()
-    
     return priority
 }
 
@@ -59,8 +58,9 @@ func RuckSackPart2(filename string) int {
     counter, priority := 0, 0
 
     sc, file, err := utils.OpenFile(filename)
-
     if err != nil { log.Fatal(err) }
+
+    defer file.Close()
 
     for sc.Scan(){
         if counter < 3{
@@ -77,7 +77,6 @@ func RuckSackPart2(filename string) int {
         }
     }
 
-    defer file.Close()
     return priority
 }
 

@@ -40,8 +40,9 @@ func isInRange(s []int) bool {
 func Cleanup(filename string) int{
 
     sc, file, err := utils.OpenFile(filename)
-
     if err != nil { log.Fatal(err) }
+
+    defer file.Close()
 
     var sections []string
     var ints []int
@@ -58,7 +59,6 @@ func Cleanup(filename string) int{
         }
     }
 
-    defer file.Close()
     return counter
 }
 
@@ -72,8 +72,8 @@ func overlaps(range1, range2 []int) bool {
 func Cleanup2(filename string) int{
 
     sc, file, err := utils.OpenFile(filename)
-
     if err != nil { log.Fatal(err) }
+    defer file.Close()
 
     var sections []string
     var ints []int
@@ -92,6 +92,5 @@ func Cleanup2(filename string) int{
         }
     }
 
-    defer file.Close()
     return counter
 }
