@@ -6,8 +6,10 @@ import (
 )
 
 func Solve(filename string) {
-    FindSignal(filename, 1)
-    FindSignal(filename, 2)
+    one := FindSignal(filename, 1)
+    two := FindSignal(filename, 2)
+    print(one, "\n")
+    print(two, "\n")
 }
 
 func isUnique(stream []byte) bool {
