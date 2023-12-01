@@ -9,8 +9,7 @@ import (
 
 func OpenFile(filename string) (*bufio.Scanner, *os.File, error) {
 
-    patherino := "../Advent/days/"
-    file, err := os.Open(patherino + filename)
+    file, err := os.Open(filename)
 
     if err != nil {
         log.Fatal(err)
