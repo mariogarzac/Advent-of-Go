@@ -1,40 +1,50 @@
-package day01
+package main
 
 import (
-	"fmt"
+    "fmt"
+    "strconv"
 
     "github.com/mariogarzac/utils"
 )
 
-func FindNumbers() (int, error){
-    sc, file, err := utils.OpenFile("day01/test.txt")
+func part1() int{
+    sc, file, err := utils.OpenFile("day01/input.txt")
+
     if err != nil {
-        return 0,err
-    }
-
-    var nums []byte
-    count := 1
-
-    for sc.Scan(){
-        line := sc.Text()
-
-        for i := range line{
-            // ascii values for numbers go from 48 to 57
-            if line[i] < 58{
-                nums = append(nums, line[i] - 48)
-            }
-        }
-
-
-        fmt.Println()
-
+        return 0
     }
 
     defer file.Close()
 
-    return 0,nil
+    var nums []byte
+    count := 0
+
+    for sc.Scan(){
+        line := sc.Text()
+
+        // get all the numbers in the string 
+        for i := range line{
+            if line[i] >= '0' && line[i] <= '9'{
+                nums = append(nums, line[i] - '0')
+            }
+
+        }
+
+        // get the first and the last byte from the slice and convert them to a string
+        num := strconv.Itoa(int(nums[0])) + strconv.Itoa(int(nums[len(nums) - 1 ]))
+
+        // convert the string back to an int lmao
+        result,_ := strconv.Atoi(num)
+
+        // add the number and reset the array
+        count += result
+        nums = nums[:0]
+    }
+
+    return count
 }
 
 func main(){
-    FindNumbers()
+    fmt.Println(part1())
 }
+
