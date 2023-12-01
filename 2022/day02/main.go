@@ -1,9 +1,10 @@
-package two
+package main
 
 import (
-	"Advent/utils"
 	"log"
 	"strings"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func GetMatchScore(filename string) int{

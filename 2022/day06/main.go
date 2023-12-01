@@ -1,8 +1,9 @@
-package six
+package main
 
 import (
-	"Advent/utils"
 	"log"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func Solve(filename string) {

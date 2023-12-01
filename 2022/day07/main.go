@@ -1,10 +1,11 @@
-package seven
+package main
 
 import (
-	"Advent/utils"
 	"fmt"
 	"strconv"
 	"strings"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func Solve(filename string){

@@ -1,9 +1,10 @@
-package three
+package main
 
 import (
-	"Advent/utils"
 	"fmt"
 	"log"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func splitString(str string) (string, string)  {

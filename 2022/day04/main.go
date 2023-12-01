@@ -1,10 +1,11 @@
-package four
+package main
 
 import (
-	"Advent/utils"
 	"log"
 	"strconv"
 	"strings"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func turnToInts(s []string) []int {

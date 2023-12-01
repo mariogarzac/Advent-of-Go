@@ -1,11 +1,12 @@
-package five
+package main
 
 import (
-    "Advent/utils"
     "fmt"
     "log"
     "strconv"
     "strings"
+
+    "github.com/mariogarzac/Advent/utils"
 )
 
 type LoadingDock struct {

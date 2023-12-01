@@ -1,10 +1,12 @@
-package one
+package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
-    "Advent/utils"
-    "Advent/tree"
+
+	"github.com/mariogarzac/Advent/tree"
+	"github.com/mariogarzac/Advent/utils"
 )
 
 func FindMax(filename string) int {
@@ -64,4 +66,9 @@ func FindTopThree(filename string) int {
     defer file.Close()
 
     return bt.FindTopThree(bt.Root)
+}
+
+func main(){
+    fmt.Println(FindMax("input.txt"))
+    fmt.Println(FindTopThree("input.txt"))
 }
