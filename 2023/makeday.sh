@@ -9,13 +9,13 @@ echo "
 package main
 
 import (
-	"log"
+	\"log\"
 
-	"github.com/mariogarzac/Advent/utils"
+	\"github.com/mariogarzac/Advent/utils\"
 )
 
 func main() {
-	sc, file, err := utils.OpenFile("input.txt")
+	sc, file, err := utils.OpenFile(\"input.txt\")
 
      if err != nil {
          log.Fatal(err)
