@@ -24,38 +24,7 @@ func main() {
     }
 
 
-    part1(string(file))
-}
-
-func parseBlock(block string) [][]int{ 
-
-    blockRanges := strings.Split(block, "\n")[1:]
-
-    numbers := [][]int{}
-
-    // process each individual map
-    for _,ranges := range blockRanges {
-
-        // skip any empty ranges
-        if ranges == ""{
-            continue
-        }
-
-        // split the range by spaces
-        n := []int{}
-        blockRange := strings.Fields(ranges)
-
-        // convert each number in the range to an int and append it
-        for _,r := range blockRange {
-            number,_ := strconv.Atoi(r)
-            n = append(n, number)
-        }
-
-        // append the number slice to the slice that will be returned
-        numbers = append(numbers, n)
-    }
-
-    return numbers
+    fmt.Println(part1(string(file)))
 }
 
 func part1(line string) int {
@@ -93,8 +62,8 @@ func part1(line string) int {
             minSeed = s
         }
     }
-    fmt.Println(minSeed)
-    return 0
+    
+    return minSeed
 }
 
 func parseSeeds(s string) []int{
@@ -107,4 +76,35 @@ func parseSeeds(s string) []int{
 
     }
     return nums
+}
+
+func parseBlock(block string) [][]int{ 
+
+    blockRanges := strings.Split(block, "\n")[1:]
+
+    numbers := [][]int{}
+
+    // process each individual map
+    for _,ranges := range blockRanges {
+
+        // skip any empty ranges
+        if ranges == ""{
+            continue
+        }
+
+        // split the range by spaces
+        n := []int{}
+        blockRange := strings.Fields(ranges)
+
+        // convert each number in the range to an int and append it
+        for _,r := range blockRange {
+            number,_ := strconv.Atoi(r)
+            n = append(n, number)
+        }
+
+        // append the number slice to the slice that will be returned
+        numbers = append(numbers, n)
+    }
+
+    return numbers
 }
