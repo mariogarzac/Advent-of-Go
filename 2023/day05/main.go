@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"strconv"
-	"strings"
-	"sync"
-	"time"
+    "fmt"
+    "log"
+    "strconv"
+    "strings"
+    "time"
 
-	"github.com/mariogarzac/Advent/utils"
+    "github.com/mariogarzac/Advent/utils"
 )
 
 func main() {
@@ -72,74 +71,56 @@ func part1(line string) int {
 }
 
 func part2(line string) int {
-    almanac := strings.Split(line, "\n\n")
 
-    seeds := converToInt(almanac[0])
-    blocks := almanac[1:]
+    seeds, maps := parseMaps(line)
 
-    ch := make(chan int)
-    var wg sync.WaitGroup
+    s := 0
+    minSeed:= seeds[0]
+    currSeed := minSeed
 
-    locations := []int{}
-    for _, s := range seeds {
-        wg.Add(1)
-        go concurrentP2(s, blocks, ch, &wg)
-    }
-
-    go func() {
-        wg.Wait()
-        close(ch)
-    }()
-
-    for result := range ch {
-        locations = append(locations, result)
-    }
-
-    minSeed := locations[0]
-    for _, s := range locations {
-        if s < minSeed {
-            minSeed = s
+    // go through seed ranges
+    for i := 1; i < len(seeds); i += 2 {
+        // parse every seed in the given range
+        for j := seeds[i - 1]; j < seeds[i - 1] + seeds[i]; j++{
+            s = j
+            // parse the seed through each individual map
+            for _, m := range maps {
+                for _, r := range m {
+                    srcStart, dstStart, rangeLen := r[0], r[1], r[2]
+                    if dstStart <= s && s < dstStart + rangeLen{
+                        s = s - dstStart + srcStart
+                        currSeed = s
+                        break
+                    }
+                }
+            }
+            if currSeed < minSeed {
+                minSeed = currSeed
+            }
         }
     }
 
     return minSeed
 }
-func concurrentP2(seeds []int, blocks []string, ch chan<-int, wg *sync.WaitGroup) {
 
-    defer wg.Done()
+func parseMaps(line string) ([]int, [][][]int){
+    almanac := strings.Split(line, "\n\n")
+
+    seeds := []int{}
+    seeds = parseSeeds(almanac[0])
+
+    maps := [][][]int{}
+    blocks := almanac[1:]
 
     for _,block := range blocks {
-        maps := [][]int{}
         splitRanges := parseBlock(block)
-        maps = splitRanges
-
-        newSeeds := []int{}
-        for _,s := range seeds{
-            found := false
-            for _, m := range maps {
-                srcStart, dstStart, rangeLen := m[0], m[1], m[2]
-                if dstStart <= s && s < dstStart + rangeLen{
-                    newSeeds = append(newSeeds, s - dstStart + srcStart)
-                    found = true
-                    break
-                }
-            }
-            if !found {
-                newSeeds = append(newSeeds, s)
-            }
-        }
-        seeds = newSeeds
+        maps = append(maps, splitRanges)
     }
 
-    minSeed := seeds[0]
-    for _, s := range seeds {
-        if s < minSeed{
-            minSeed = s
-        }
-    }
-
-    ch <- minSeed
+    return seeds, maps
 }
+
+
 
 func parseSeeds(s string) []int{
     str := strings.Split(s, " ")[1:]
