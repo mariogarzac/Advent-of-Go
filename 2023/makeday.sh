@@ -32,6 +32,6 @@ func main() {
 
 func part1(line string) int {
 
-return 0
+    return 0
 }
 " > main.go
