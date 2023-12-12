@@ -25,6 +25,7 @@ func (a ByRankHighCard) Less(i, j int) bool {
         for k := 0; k < len(a[i].cards); k++ {
             c1 := convertions[string(a[i].cards[k])]
             c2 := convertions[string(a[j].cards[k])]
+
             if c1 != c2{
                 return c1 < c2
             }
@@ -35,9 +36,9 @@ func (a ByRankHighCard) Less(i, j int) bool {
 }
 
 var convertions = map[string]int {
-    "1" : 1, "2" : 2, "3" : 3,
-    "4" : 4, "5" : 5, "6" : 6, 
-    "7" : 7, "8" : 8, "9" : 9,
+    "0" : 1,  "1" : 1,  "2" : 2, "3" : 3,
+    "4" : 4,  "5" : 5,  "6" : 6, 
+    "7" : 7,  "8" : 8,  "9" : 9,
     "T" : 10, "J" : 11, "Q" : 12,
     "K" : 13, "A" : 14,
 }
@@ -53,7 +54,33 @@ func main() {
         log.Fatal(err)
     }
 
-    fmt.Println(part1(string(file)))
+    games := parseCards(string(file))
+    fmt.Println(part1(games))
+    fmt.Println(part2(games))
+}
+
+func part1(games []Hand) int {
+
+    for i := range games {
+        games[i].rank = getHandRank(games[i].cards)
+    }
+
+    sort.Sort(ByRankHighCard(games))
+
+    return calculatePoints(games)
+}
+
+func part2(games []Hand) int {
+
+    for i := range games {
+        jokerHand := jokerToCard(games[i].cards)
+        games[i].rank = getHandRank(jokerHand)
+        games[i].cards = strings.ReplaceAll(games[i].cards, "J", "0")
+    }
+
+    sort.Sort(ByRankHighCard(games))
+
+    return calculatePoints(games)
 }
 
 func parseCards(game string) []Hand{
@@ -76,19 +103,6 @@ func parseCards(game string) []Hand{
         games[i] =  g
     }
     return games
-}
-
-func part1(game string) int {
-
-    games := parseCards(game)
-    for i := range games {
-        games[i].rank = getHandRank(games[i].cards)
-    }
-
-    sort.Sort(ByRankHighCard(games))
-
-
-    return calculatePoints(games)
 }
 
 func getHandRank(hand string) int {
@@ -129,6 +143,39 @@ func mapCards(hand string) (map[int]int, int) {
         }
     }
     return cards, cardAmount
+}
+
+func jokerToCard(hand string) string {
+    cards,_ := mapCards(hand)
+    highest, card := 0, 0
+
+    if cards[11] == 0{
+        return hand
+    }
+
+    if cards[11] == 5{
+        return "AAAAA"
+    }
+
+    for key,value := range cards{
+        if key == 11{
+            continue
+        }
+        if value > highest {
+            card = key
+            highest = value
+        }
+    }
+
+    var targetCard string
+    for key, c := range convertions {
+        if c == card {
+            targetCard = key
+            break
+        }
+    }
+
+    return strings.ReplaceAll(hand, "J", targetCard)
 }
 
 func findPairs(cards map[int]int) int{
