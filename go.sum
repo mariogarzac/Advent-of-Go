@@ -1,2 +1,6 @@
+github.com/cznic/mathutil v0.0.0-20181122101859-297441e03548 h1:iwZdTE0PVqJCos1vaoKsclOGD3ADKpshg3SRtYBbwso=
+github.com/cznic/mathutil v0.0.0-20181122101859-297441e03548/go.mod h1:e6NPNENfs9mPDVNRekM7lKScauxd5kXTr1Mfyig6TDM=
 github.com/mariogarzac/utils v0.0.0-20231201154004-931d0e6797bf h1:zVgATs5XI6g0JUp8Fy+GjpWoGULWHuW12XBIhfO3aQY=
 github.com/mariogarzac/utils v0.0.0-20231201154004-931d0e6797bf/go.mod h1:WYHtWLOuXrb9fzxi367whmWuM4IEQglyC/SgTIVbjP4=
+github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec h1:W09IVJc94icq4NjY3clb7Lk8O1qJ8BdBEF8z0ibU0rE=
+github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
