@@ -60,16 +60,16 @@ func main() {
     }
 
     var pipes[][]string
-    var i, j int
-    i, j, pipes = parseTubes(string(file))
+    var row, col int
+    row, col, pipes = parseTubes(string(file))
 
-    fmt.Println(part1(i, j, pipes))
+    fmt.Println(part1(row, col, pipes))
 
 }
 
-func part1(i, j int, pipes [][]string) int {
+func part1(row, col int, pipes [][]string) int {
 
-    begin := getPossiblePaths(i, j, pipes)
+    begin := getPossiblePaths(row, col, pipes)
     paths := [][]Point{}
 
     for _, b := range begin {
@@ -82,13 +82,15 @@ func part1(i, j int, pipes [][]string) int {
     return findCommonPosition(paths)
 }
 
-func traverseMaze(i, j int, pipes [][]string, visited map[Point]bool, path *[]Point) {
-    visited[Point{i, j}] = true
+func replaceS(){
+}
 
-    // fmt.Printf("Visited point: (%d, %d) - Pipe: %s\n", i, j, pipes[i][j])
-    *path = append(*path, Point{i,j})
+func traverseMaze(row, col int, pipes [][]string, visited map[Point]bool, path *[]Point) {
+    visited[Point{row, col}] = true
 
-    possiblePaths := getPossiblePaths(i, j, pipes)
+    *path = append(*path, Point{row,col})
+
+    possiblePaths := getPossiblePaths(row, col, pipes)
 
     for _, nextPoint := range possiblePaths {
         if !visited[nextPoint] {
@@ -111,26 +113,26 @@ func findCommonPosition(paths [][]Point) int {
     return found
 }
 
-func getPossiblePaths(i, j int, pipes[][]string) []Point {
+func getPossiblePaths(row, col int, pipes[][]string) []Point {
     start := []Point{}
 
     for _, p := range directions {
-        row := i + p.x
-        col := j + p.y
+        nRow := row + p.x
+        nCol := col + p.y
 
-        if row < 0 || row > len(pipes) - 1 || col < 0 || col > len(pipes) - 1 {
+        if nRow < 0 || nRow > len(pipes) - 1 || nCol < 0 || nCol > len(pipes) - 1 {
             continue
         }
 
-        if pipes[row][col] == "." {
+        if pipes[nRow][nCol] == "." {
             continue
         }
 
-        next := pipes[row][col]
-        curr := pipes[i][j]
+        next := pipes[nRow][nCol]
+        curr := pipes[row][col]
 
         if exists := valid[p][curr][next]; exists{
-            start = append(start, Point{row,col})
+            start = append(start, Point{nRow,nCol})
         }
 
     }
@@ -142,10 +144,10 @@ func parseTubes(tubes string) (int, int, [][]string) {
 
     splitPipes := strings.Split(tubes, "\n")
     var pipes [][]string
-    var i, j int
+    var row, col int
 
-    i = 0
-    j = -1
+    row = 0
+    col = -1
 
     for _,sp := range splitPipes {
         if sp == "" {
@@ -154,13 +156,13 @@ func parseTubes(tubes string) (int, int, [][]string) {
 
         split := strings.Split(sp, "")
 
-        if j == -1 {
-            j = strings.Index(sp, "S")
-            i += 1
+        if col == -1 {
+            col = strings.Index(sp, "S")
+            row += 1
         }
 
         pipes = append(pipes, split)
     }
 
-    return i - 1, j, pipes 
+    return row - 1, col, pipes 
 }
