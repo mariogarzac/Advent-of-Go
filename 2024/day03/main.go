@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"regexp"
 	"strconv"
 	"strings"
 
@@ -11,7 +10,7 @@ import (
 )
 
 func main() {
-	sc, file, err := utils.OpenFile("test.txt")
+	sc, file, err := utils.OpenFile("input.txt")
 
 	if err != nil {
 		log.Fatal(err)
@@ -28,38 +27,62 @@ func main() {
 }
 
 func part1(line string) int {
-	re, _ := regexp.Compile(`mul\(\d+,\d+\)`)
-	matches := re.FindAllString(line, -1)
-
-	result := 0
-
-	for _, match := range matches {
-		digits := strings.Split(strings.TrimSuffix(strings.TrimPrefix(match, "mul("), ")"), ",")
-
-		left, _ := strconv.Atoi(digits[0])
-		right, _ := strconv.Atoi(digits[1])
-		result += left * right
+	total := 0
+	for i := 0; i < len(line); i++ {
+		if line[i] == 'm' && line[i+3] == '(' {
+			exs, finish := isMul(i+4, line)
+			if exs {
+				first, second := findNumbers(line[i+4 : finish])
+				total += second * first
+			}
+		}
 	}
 
-	return result
+	return total
 }
 
 func part2(line string) int {
-	del, _ := regexp.Compile(`don't`)
-	dontIndex := del.FindStringIndex(line)
-	fmt.Println(line[dontIndex[0]:dontIndex[1]], dontIndex)
+	total := 0
+	shouldDo := true
 
-	do, _ := regexp.Compile(`do`)
-	doIndex := do.FindStringIndex(line)
-	fmt.Println(line[doIndex[0]:doIndex[1]], doIndex)
+	for i := 0; i < len(line); i++ {
+		if line[i] == 'd' && line[i+2] == 'n' {
+			shouldDo = false
+		} else if line[i] == 'd' && line[i+1] == 'o' {
+			shouldDo = true
+		}
 
-	re, _ := regexp.Compile(`mul\(\d+,\d+\)`)
-	matches := re.FindAllString(line, 1)
-	index := re.FindStringIndex(line)
-	fmt.Println(line[index[0]:index[1]])
+		if line[i] == 'm' && line[i+3] == '(' {
+			exs, finish := isMul(i+4, line)
+			if exs && shouldDo {
+				first, second := findNumbers(line[i+4 : finish])
+				total += second * first
+			}
+		}
+	}
 
-	fmt.Println(matches)
-	result := 0
+	return total
+}
 
-	return result
+func findNumbers(line string) (int, int) {
+	nums := strings.Split(line, ",")
+	first, err := strconv.Atoi(nums[0])
+	if err != nil {
+		return 0, 0
+	}
+	second, err := strconv.Atoi(nums[1])
+	if err != nil {
+		return 0, 0
+	}
+
+	return first, second
+}
+
+func isMul(index int, line string) (bool, int) {
+	for i := index; i < index+9; i++ {
+		if line[i] == ')' {
+			return true, i
+		}
+	}
+	return false, 0
 }

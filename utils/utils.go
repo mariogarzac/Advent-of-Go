@@ -20,7 +20,7 @@ func OpenFile(filename string) (*bufio.Scanner, *os.File, error) {
 	return sc, file, nil
 }
 
-func ReadWholeFile(filename string) ([]byte, error) {
+func ReadWholeFile(filename string) (string, error) {
 
 	var data []byte
 	var err error
@@ -29,7 +29,7 @@ func ReadWholeFile(filename string) ([]byte, error) {
 		log.Fatal(err)
 	}
 
-	return data, err
+	return string(data), err
 }
 
 // ----------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	sc, file, err := utils.OpenFile("input.txt")
+	sc, file, err := utils.OpenFile("day2.txt")
 
 	if err != nil {
 		log.Fatal(err)

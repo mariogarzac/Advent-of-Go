@@ -3,7 +3,7 @@
 mkdir day0"$1"
 cd day0"$1"
 
-touch main.go input.txt
+touch main.go input.txt test.txt
 
 echo "
 package main
@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	sc, file, err := utils.OpenFile(\"input.txt\")
+	sc, file, err := utils.OpenFile(\"test.txt\")
 
 	if err != nil {
 		log.Fatal(err)
